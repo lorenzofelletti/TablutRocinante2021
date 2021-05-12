@@ -33,6 +33,14 @@ public abstract class TablutClient implements Runnable {
 	private int timeout;
 	private String serverIp;
 
+	public String getServerIp() {
+		return serverIp;
+	}
+
+	public void setServerIp(String serverIp) {
+		this.serverIp = serverIp;
+	}
+
 	public State.Turn getPlayer() {
 		return player;
 	}
@@ -67,7 +75,7 @@ public abstract class TablutClient implements Runnable {
 			throws UnknownHostException, IOException {
 		int port = 0;
 		serverIp = ipAddress;
-		this.timeout = timeout;
+		this.setTimeout(timeout);
 		this.gson = new Gson();
 		if (player.toLowerCase().equals("white")) {
 			this.player = State.Turn.WHITE;
@@ -161,5 +169,13 @@ public abstract class TablutClient implements Runnable {
 	 */
 	public void read() throws ClassNotFoundException, IOException {
 		this.currentState = this.gson.fromJson(StreamUtils.readString(in), StateTablut.class);
+	}
+
+	public int getTimeout() {
+		return timeout;
+	}
+
+	public void setTimeout(int timeout) {
+		this.timeout = timeout;
 	}
 }
