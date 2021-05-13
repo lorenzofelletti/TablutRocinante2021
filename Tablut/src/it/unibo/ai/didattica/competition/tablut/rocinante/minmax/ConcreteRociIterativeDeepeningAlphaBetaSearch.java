@@ -13,7 +13,7 @@ import it.unibo.ai.didattica.competition.tablut.domain.State.Turn;
  * @author Lorenzo Felletti
  */
 public class ConcreteRociIterativeDeepeningAlphaBetaSearch
-		extends RociIterativeDeepeningAlphaBetaSearch<State, Action, State.Turn> {
+		extends RociIterativeDeepeningAlphaBetaSearch {
 
 	public ConcreteRociIterativeDeepeningAlphaBetaSearch(Game<State, Action, Turn> game, double utilMin, double utilMax,
 			int time) {

@@ -27,8 +27,8 @@ public class WhiteHeuristics extends Heuristics {
 		weights = new HashMap<KEYS, Double>();
 		weights.put(KEYS.bestPosition, 2.0);
 		weights.put(KEYS.blackEaten, 20.0);
-		weights.put(KEYS.whiteAlive, 40.0);
-		weights.put(KEYS.numEscapeKing, 15.0);
+		weights.put(KEYS.whiteAlive, 35.0);
+		weights.put(KEYS.numEscapeKing, 18.0);
 		weights.put(KEYS.blackSurroundKing, 7.0);
 		weights.put(KEYS.protectionKing, 18.0);
 

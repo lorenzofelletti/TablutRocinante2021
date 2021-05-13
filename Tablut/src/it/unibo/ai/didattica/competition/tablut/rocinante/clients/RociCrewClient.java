@@ -8,7 +8,7 @@ import it.unibo.ai.didattica.competition.tablut.domain.Action;
 import it.unibo.ai.didattica.competition.tablut.domain.GameAshtonTablut;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 import it.unibo.ai.didattica.competition.tablut.domain.StateTablut;
-import it.unibo.ai.didattica.competition.tablut.rocinante.minmax.ConcreteRociIterativeDeepeningAlphaBetaSearch;
+import it.unibo.ai.didattica.competition.tablut.rocinante.minmax.RociIterativeDeepeningAlphaBetaSearch;
 
 public class RociCrewClient extends TablutClient {
 	private int game;
@@ -24,7 +24,7 @@ public class RociCrewClient extends TablutClient {
 	public static void main(String[] args) throws IOException {
 		int gameType = 4;
 		String role = "";
-		String name = "brAInmates";
+		String name = "Rocinante";
 		String ipAddress = "localhost";
 		int timeout = 60;
 		boolean debug = false;
@@ -223,7 +223,7 @@ public class RociCrewClient extends TablutClient {
 	 */
 	private Action findBestMove(GameAshtonTablut tablutGame, State state) {
 
-		ConcreteRociIterativeDeepeningAlphaBetaSearch search = new ConcreteRociIterativeDeepeningAlphaBetaSearch(
+		RociIterativeDeepeningAlphaBetaSearch search = new RociIterativeDeepeningAlphaBetaSearch(
 				tablutGame, Double.MIN_VALUE, Double.MAX_VALUE, this.getTimeout() - 2);
 		search.setLogEnabled(debug);
 		return search.makeDecision(state);

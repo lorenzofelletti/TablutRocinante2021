@@ -1,10 +1,15 @@
 package it.unibo.ai.didattica.competition.tablut.rocinante.minmax;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import aima.core.search.adversarial.Game;
 import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch;
+
+import it.unibo.ai.didattica.competition.tablut.domain.State;
+import it.unibo.ai.didattica.competition.tablut.domain.Action;
+
 
 /**
  * Tries (and succeed, I hope) at extending aima-core
@@ -13,20 +18,25 @@ import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch;
  * in the list).
  * 
  * @see IterativeDeepeningAlphaBetaSearch
- * @author Lorenzo Felletti
+ * @author Mario Caniglia, Raffaele Battipaglia, Lorenzo Felletti
  *
- * @param <S>
- * @param <A>
+ * @param <State>
+ * @param <Action>
  * @param <P>
  */
-public class RociIterativeDeepeningAlphaBetaSearch<S, A, P> extends IterativeDeepeningAlphaBetaSearch<S, A, P> {
-	HashMap<Integer, List<A>> killerMoves;
-	Timer timer;
 
-	public RociIterativeDeepeningAlphaBetaSearch(Game<S, A, P> game, double utilMin, double utilMax, int time) {
+public class RociIterativeDeepeningAlphaBetaSearch extends IterativeDeepeningAlphaBetaSearch<State, Action, State.Turn> {
+	HashMap<Integer, List<Action>> killerMovesWhite;
+	HashMap<Integer, List<Action>> killerMovesBlack;
+	Timer2 timer2;
+	
+	private int n0de = 0;
+
+	public RociIterativeDeepeningAlphaBetaSearch(Game<State, Action, State.Turn> game, double utilMin, double utilMax, int time) {
 		super(game, utilMin, utilMax, time);
-		killerMoves = new HashMap<>();
-		this.timer = new Timer(time);
+		killerMovesWhite = new HashMap<>();
+		killerMovesBlack = new HashMap<>();
+		this.timer2 = new Timer2(time);
 	}
 
 	/**
@@ -35,16 +45,21 @@ public class RociIterativeDeepeningAlphaBetaSearch<S, A, P> extends IterativeDee
 	 * @param depth - it is the ply, but I'm no good at choosing names
 	 * @param a     - the killer move, I know a its a bad name for a killer move.
 	 */
-	private void addKillerMove(int depth, A a) {
+	private void addKillerMove(int depth, Action a, State.Turn player) {
+		HashMap<Integer, List<Action>> killerMoves = (player == State.Turn.BLACK) ? killerMovesBlack : killerMovesWhite;
+		
+		if (killerMoves.get(depth) == null) {
+			killerMoves.put(depth, new ArrayList<Action>());
+		}
 		// Ma-ma-se, ma-ma-se, ma-ma-ku-sa
-		if (this.killerMoves.get(depth).contains(a)) {
-			this.killerMoves.get(depth).add(0, a);
-			this.killerMoves.get(depth).remove(this.killerMoves.get(depth).size() - 1);
+		if (killerMoves.get(depth).contains(a)) {
+			killerMoves.get(depth).add(0, a);
+			killerMoves.get(depth).remove(killerMoves.get(depth).size() - 1);
 			return;
 		} else {
-			this.killerMoves.get(depth).add(0, a);
-			if (this.killerMoves.get(depth).size() > 3) {
-				this.killerMoves.get(depth).remove(this.killerMoves.get(depth).size() - 1);
+			killerMoves.get(depth).add(0, a);
+			if (killerMoves.get(depth).size() > 3) {
+				killerMoves.get(depth).remove(killerMoves.get(depth).size() - 1);
 			}
 		}
 	}
@@ -53,20 +68,22 @@ public class RociIterativeDeepeningAlphaBetaSearch<S, A, P> extends IterativeDee
 	 * The other half of the minimax.
 	 */
 	@Override
-	public double maxValue(S state, P player, double alpha, double beta, int depth) {
-		if (game.isTerminal(state) || depth >= currDepthLimit || timer.timeOutOccurred()) {
+	public double maxValue(State state, State.Turn player, double alpha, double beta, int depth) {
+		if (game.isTerminal(state) || depth >= currDepthLimit || timer2.timeOutOccurred()) {
 			return eval(state, player);
 		} else {
 			double value = Double.NEGATIVE_INFINITY;
-			for (A action : orderActions(state, game.getActions(state), player, depth)) {
+			for (Action action : orderActions(state, game.getActions(state), player, depth)) {
+				n0de++;
 				value = Math.max(value, minValue(game.getResult(state, action), //
 						player, alpha, beta, depth + 1));
 				if (value >= beta) {
-					this.addKillerMove(depth, action);
+					this.addKillerMove(depth, action, player);
 					return value;
 				}
 				alpha = Math.max(alpha, value);
 			}
+			//System.out.println("MAX " + i + " " + depth + " " + currDepthLimit); 
 			return value;
 		}
 	}
@@ -75,20 +92,23 @@ public class RociIterativeDeepeningAlphaBetaSearch<S, A, P> extends IterativeDee
 	 * One half of the minimax.
 	 */
 	@Override
-	public double minValue(S state, P player, double alpha, double beta, int depth) {
-		if (game.isTerminal(state) || depth >= currDepthLimit || timer.timeOutOccurred()) {
+	public double minValue(State state, State.Turn player, double alpha, double beta, int depth) {
+		//System.out.println("cdl: "+currDepthLimit +"   d: "+depth);
+		if (game.isTerminal(state) || depth >= currDepthLimit || timer2.timeOutOccurred()) {
 			return eval(state, player);
 		} else {
 			double value = Double.POSITIVE_INFINITY;
-			for (A action : orderActions(state, game.getActions(state), player, depth)) {
+			for (Action action : orderActions(state, game.getActions(state), player, depth)) {
+				n0de++;
 				value = Math.min(value, maxValue(game.getResult(state, action), //
 						player, alpha, beta, depth + 1));
 				if (value <= alpha) {
-					this.addKillerMove(depth, action);
+					this.addKillerMove(depth, action, player);
 					return value;
 				}
 				beta = Math.min(beta, value);
 			}
+			//System.out.println("min " + i + " " + depth + " " + currDepthLimit); 
 			return value;
 		}
 	}
@@ -97,17 +117,26 @@ public class RociIterativeDeepeningAlphaBetaSearch<S, A, P> extends IterativeDee
 	 * "Order" the moves. I mean, order is a big word for this method, but still...
 	 */
 	@Override
-	public List<A> orderActions(S state, List<A> actions, P player, int depth) {
-		for (A killerMove : killerMoves.get(depth)) {
-			boolean idx = actions.contains(killerMove);
-			if (idx) {
-				actions.remove(idx);
-				actions.add(0, killerMove);
-			}
+	public List<Action> orderActions(State state, List<Action> actions, State.Turn player, int depth) {
+		HashMap<Integer, List<Action>> killerMoves = (player == State.Turn.BLACK) ? killerMovesBlack : killerMovesWhite;
+		if (killerMoves.get(depth) != null) {
+			for (Action killerMove : killerMoves.get(depth)) {
+				boolean idx = actions.contains(killerMove);
+				if (idx) {
+					actions.remove(idx);
+					actions.add(0, killerMove);
+				}
 
+			}
 		}
-		actions.sort(null);
+
 		return actions;
+	}
+	
+	@Override
+	protected double eval(State state, State.Turn player) {
+		super.eval(state, player);
+		return game.getUtility(state, player);
 	}
 
 	/**
@@ -117,11 +146,11 @@ public class RociIterativeDeepeningAlphaBetaSearch<S, A, P> extends IterativeDee
 	 * @author Lorenzo Felletti
 	 *
 	 */
-	protected static class Timer {
+	protected static class Timer2 {
 		private long duration;
 		private long startTime;
 
-		Timer(int maxSeconds) {
+		Timer2(int maxSeconds) {
 			this.duration = 1000 * maxSeconds;
 		}
 
@@ -130,7 +159,15 @@ public class RociIterativeDeepeningAlphaBetaSearch<S, A, P> extends IterativeDee
 		}
 
 		boolean timeOutOccurred() {
-			return System.currentTimeMillis() > startTime + duration;
+			return System.currentTimeMillis() > (startTime + duration);
 		}
 	}
+	
+	 @Override
+	 public Action makeDecision(State state) {
+		 timer2.start();
+	     Action a = super.makeDecision(state);
+	     System.out.println("nodi esplorat: " + n0de + " a profondità: " + currDepthLimit);
+	     return  a;
+	 }
 }

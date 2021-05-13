@@ -95,7 +95,8 @@ public class Server implements Runnable {
 
 	public Server(int timeout, int cacheSize, int numErrors, int repeated, int game, boolean gui) {
 		this.gameC = game;
-		this.enableGui = gui;
+		//this.enableGui = gui;
+		this.enableGui = true;
 		this.time = timeout;
 		this.moveCache = cacheSize;
 		this.errors = numErrors;
