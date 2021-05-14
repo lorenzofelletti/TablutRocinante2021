@@ -8,6 +8,7 @@ import it.unibo.ai.didattica.competition.tablut.domain.Action;
 import it.unibo.ai.didattica.competition.tablut.domain.GameAshtonTablut;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 import it.unibo.ai.didattica.competition.tablut.domain.StateTablut;
+import it.unibo.ai.didattica.competition.tablut.rocinante.minmax.ConcreteRociIterativeDeepeningAlphaBetaSearch;
 import it.unibo.ai.didattica.competition.tablut.rocinante.minmax.RociIterativeDeepeningAlphaBetaSearch;
 
 public class RociCrewClient extends TablutClient {
@@ -97,7 +98,7 @@ public class RociCrewClient extends TablutClient {
 		;
 
 		System.out.println(""
-				+ "+--------------------------  Ashton Tablut Game Challenge 2021  --------------------------+"
+				+ "+--------------------------  Ashton Tablut Game Challenge 2021  --------------------------+\n"
 				+ "|                                                                                         |\n"
 				+ "|                                    R o c i n a n t e                                    |\n"
 				+ "|                   c r e w   w e l c o m e s   y o u   o n   b o a r d                   |\n"
@@ -223,7 +224,7 @@ public class RociCrewClient extends TablutClient {
 	 */
 	private Action findBestMove(GameAshtonTablut tablutGame, State state) {
 
-		RociIterativeDeepeningAlphaBetaSearch search = new RociIterativeDeepeningAlphaBetaSearch(
+		ConcreteRociIterativeDeepeningAlphaBetaSearch search = new ConcreteRociIterativeDeepeningAlphaBetaSearch(
 				tablutGame, Double.MIN_VALUE, Double.MAX_VALUE, this.getTimeout() - 2);
 		search.setLogEnabled(debug);
 		return search.makeDecision(state);

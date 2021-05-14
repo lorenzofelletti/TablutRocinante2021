@@ -56,7 +56,6 @@ public class BlackHeuristics extends Heuristics {
 						+ weights.get(keys[i]) * atomicUtilities.get(keys[i]));
 			}
 		}
-
 		return utilityValue;
 	}
 
