@@ -666,6 +666,8 @@ public class GameAshtonTablut implements Game, Cloneable, aima.core.search.adver
 		return state;
 	}
 
+
+
 	private State checkCaptureBlackPawnDown(State state, Action a) {
 		// controllo se mangio sotto
 		if (a.getRowTo() < state.getBoard().length - 2

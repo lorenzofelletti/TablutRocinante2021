@@ -6,6 +6,7 @@ import it.unibo.ai.didattica.competition.tablut.domain.State;
 
 public class Heuristics {
 	protected State state;
+	protected int[] kingLastPos = {-1, -1};
 
 	public State getState() {
 		return state;
@@ -28,18 +29,27 @@ public class Heuristics {
 	 * @return the position of the king in the passed state
 	 */
 	public int[] kingPos(State state) {
-		int[] k = new int[2];
 		State.Pawn[][] board = state.getBoard();
+
+		// don't check for the king position on the board if he didn't move
+		if(kingLastPos[0] != -1){
+			if(state.getPawn(kingLastPos[0], kingLastPos[1]).equalsPawn(State.Pawn.KING)){
+				return kingLastPos;
+			}
+		}
+
 		for (int i = 0; i < board.length; ++i) {
 			for (int j = 0; j < board.length; ++j) {
 				if (state.getPawn(i, j).equalsPawn('K')) {
-					k[0] = i;
-					k[1] = j;
+					kingLastPos[0] = i;
+					kingLastPos[1] = j;
+
 					break;
 				}
 			}
 		}
-		return k;
+
+		return kingLastPos;
 	}
 
 	/**
