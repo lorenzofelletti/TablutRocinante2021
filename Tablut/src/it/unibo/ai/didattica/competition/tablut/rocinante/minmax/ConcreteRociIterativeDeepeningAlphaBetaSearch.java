@@ -2,6 +2,7 @@ package it.unibo.ai.didattica.competition.tablut.rocinante.minmax;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import aima.core.search.adversarial.Game;
 import it.unibo.ai.didattica.competition.tablut.domain.Action;
@@ -33,7 +34,7 @@ public class ConcreteRociIterativeDeepeningAlphaBetaSearch
 	@Override
 	protected List<Action> sortActions(State state, List<Action> actions, Turn player, int depth) {
 		// TODO Auto-generated method stub
-		List<KillerMovesStore<Action>> killerMoves = (player == State.Turn.BLACK) ? killerMovesBlack : killerMovesWhite;
+		Map<Integer, KillerMovesStore<Action>> killerMoves = (player == State.Turn.BLACK) ? killerMovesBlack : killerMovesWhite;
 		try {
 			for(Action km : killerMoves.get(depth).getActions()) {
 				int idx = actions.indexOf(killerMoves);
@@ -52,18 +53,17 @@ public class ConcreteRociIterativeDeepeningAlphaBetaSearch
 	
 	@Override
 	public void addKillerMove(int depth, Action a, Turn player, double value) {
-		ArrayList<KillerMovesStore<Action>> km = (player == State.Turn.BLACK) ? killerMovesBlack : killerMovesWhite;
+		Map<Integer, KillerMovesStore<Action>> km = (player == State.Turn.BLACK) ? killerMovesBlack : killerMovesWhite;
 		try {
 			if (km.get(depth) == null) {
-				km.add(depth, new KillerMovesStore<>());
+				km.put(depth, new KillerMovesStore<>());
 			}
 			// Ma-ma-se, ma-ma-se, ma-ma-ku-sa
 			if (!km.get(depth).contains(a)) {
 				km.get(depth).add(a, value);
 			}
 		} catch(Exception e) {
-			km.add(depth, new KillerMovesStore<>());
-			this.addKillerMove(depth, a, player, value);
+			return;
 		}
 		
 	}

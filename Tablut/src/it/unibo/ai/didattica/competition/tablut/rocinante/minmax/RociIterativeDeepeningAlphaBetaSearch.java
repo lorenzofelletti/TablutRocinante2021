@@ -1,7 +1,9 @@
 package it.unibo.ai.didattica.competition.tablut.rocinante.minmax;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import aima.core.search.adversarial.AdversarialSearch;
 import aima.core.search.adversarial.Game;
@@ -33,8 +35,8 @@ public class RociIterativeDeepeningAlphaBetaSearch<S, A, P> implements Adversari
 
     private Metrics metrics = new Metrics();
     
-    ArrayList<KillerMovesStore<A>> killerMovesWhite;
-    ArrayList<KillerMovesStore<A>> killerMovesBlack;
+    Map<Integer, KillerMovesStore<A>> killerMovesWhite;
+    Map<Integer, KillerMovesStore<A>> killerMovesBlack;
     List<String> citadels;
 
     /**
@@ -75,8 +77,8 @@ public class RociIterativeDeepeningAlphaBetaSearch<S, A, P> implements Adversari
         
         
         // game-specific
-        killerMovesWhite = new ArrayList<>();
-		killerMovesBlack = new ArrayList<>();
+        killerMovesWhite = new HashMap<>();
+		killerMovesBlack = new HashMap<>();
 
 		this.citadels = new ArrayList<String>();
 		this.citadels.add("a4");
