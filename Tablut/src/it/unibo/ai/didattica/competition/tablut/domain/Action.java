@@ -10,7 +10,7 @@ import java.security.InvalidParameterException;
  * @author A.Piretti
  * 
  */
-public class Action implements Serializable {
+public class Action implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -83,6 +83,16 @@ public class Action implements Serializable {
 	 */
 	public int getRowTo() {
 		return Integer.parseInt(this.to.charAt(1) + "") - 1;
+	}
+	
+	public Action clone() {
+		try {
+			return (Action) super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return null;
+		
 	}
 
 }
