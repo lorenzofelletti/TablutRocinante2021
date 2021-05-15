@@ -109,7 +109,7 @@ public class RociIterativeDeepeningAlphaBetaSearch<S, A, P> implements Adversari
      * @param a
      * @param player
      */
-    public void addKillerMove(int depth, A a, P player, double value) {
+    public void addKillerMove(int depth, A a, P player, double value, S s) {
     	return;
     }
     
@@ -191,13 +191,16 @@ public class RociIterativeDeepeningAlphaBetaSearch<S, A, P> implements Adversari
             for (A action : sortActions(state, game.getActions(state), player, depth)) {
                 value = Math.max(value, minValue(game.getResult(state, action), //
                         player, alpha, beta, depth + 1));
-                alpha = Math.max(alpha, value);
+                //alpha = Math.max(alpha, value);
                 if (value >= beta) {
-                	if(!this.captureAction(state, player, action)){
+                	/*if(!this.captureAction(state, player, action)){
 						this.addKillerMove(depth, action, player, value);
-					}
+					}*/
+                	this.addKillerMove(depth, action, player, value, state);
                     return value;
                 }
+                alpha = Math.max(alpha, value);
+                
             }
             return value;
         }
@@ -213,9 +216,10 @@ public class RociIterativeDeepeningAlphaBetaSearch<S, A, P> implements Adversari
             for (A action : sortActions(state, game.getActions(state), player, depth)) {
                 value = Math.min(value, maxValue(game.getResult(state, action), //
                         player, alpha, beta, depth + 1));
-                beta = Math.min(beta, value);
+                //beta = Math.min(beta, value);
                 if (value <= alpha)
                     return value;
+                beta = Math.min(beta, value);
             }
             return value;
         }

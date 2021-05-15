@@ -25,12 +25,12 @@ public class WhiteHeuristics extends Heuristics {
 	public WhiteHeuristics(State state) {
 		super(state);
 		weights = new HashMap<KEYS, Double>();
-		weights.put(KEYS.bestPosition, 2.0);
-		weights.put(KEYS.blackEaten, 20.0);
-		weights.put(KEYS.whiteAlive, 35.0);
-		weights.put(KEYS.numEscapeKing, 18.0);
-		weights.put(KEYS.blackSurroundKing, 7.0);
-		weights.put(KEYS.protectionKing, 18.0);
+		weights.put(KEYS.bestPosition, 2.0); // 2.0
+		weights.put(KEYS.blackEaten, 20.0); // 20.0
+		weights.put(KEYS.whiteAlive, 35.0); // 35.0
+		weights.put(KEYS.numEscapeKing, 18.0); // 18.0
+		weights.put(KEYS.blackSurroundKing, 7.0); // 7.0
+		weights.put(KEYS.protectionKing, 18.0); // 18.0
 
 		keys = KEYS.values();
 	}
