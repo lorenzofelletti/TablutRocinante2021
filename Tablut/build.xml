@@ -11,6 +11,7 @@
         <mkdir dir="build"/>
         <javac encoding="iso-8859-1" srcdir="src" destdir="build">
             <classpath>
+            	<pathelement path="lib/aima-core.jar"/>
                 <pathelement path="lib/gson-2.2.2.jar" />
                 <pathelement path="lib/commons-cli-1.4.jar" />
             </classpath>

@@ -21,7 +21,7 @@ public class ConcreteRociIterativeDeepeningAlphaBetaSearch
 
 	public ConcreteRociIterativeDeepeningAlphaBetaSearch(Game<State, Action, Turn> game, double utilMin, double utilMax,
 			int time) {
-		super(game, utilMin, utilMax, time);
+		super(game, utilMin, utilMax, time/*, citadels*/);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -30,7 +30,9 @@ public class ConcreteRociIterativeDeepeningAlphaBetaSearch
 		super.eval(state, player);
 		return game.getUtility(state, player);
 	}
-
+	
+	
+	
 	@Override
 	protected List<Action> sortActions(State state, List<Action> actions, Turn player, int depth) {
 		// TODO Auto-generated method stub
@@ -57,7 +59,7 @@ public class ConcreteRociIterativeDeepeningAlphaBetaSearch
 		}
 
 	}
-
+	
 	@Override
 	public void addKillerMove(int depth, Action a, Turn player, double value, State state) {
 		Map<Integer, KillerMovesStore<Action>> killerMoves = (player == State.Turn.BLACK) ? killerMovesBlack : killerMovesWhite;
@@ -75,7 +77,7 @@ public class ConcreteRociIterativeDeepeningAlphaBetaSearch
 		}
 
 	}
-
+	
 	private boolean checkWhiteCapture(State state, Action a) {
 		// controllo se mangio a destra
 		if (a.getColumnTo() < state.getBoard().length - 2
@@ -405,6 +407,11 @@ public class ConcreteRociIterativeDeepeningAlphaBetaSearch
 		System.out.println("Explored a total of " + getMetrics().get(METRICS_NODES_EXPANDED)
 				+ " nodes, reaching a depth limit of " + getMetrics().get(METRICS_MAX_DEPTH));
 		return a;
+	}
+	
+	public Map<Integer, TTNode> getTransposition() {
+		// TODO Auto-generated method stub
+		return this.transposition;
 	}
 
 }
