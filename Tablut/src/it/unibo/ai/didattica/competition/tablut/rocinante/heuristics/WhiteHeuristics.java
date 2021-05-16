@@ -28,12 +28,12 @@ public class WhiteHeuristics extends Heuristics {
 	public WhiteHeuristics(State state) {
 		super(state);
 		weights = new HashMap<KEYS, Double>();
-		weights.put(KEYS.bestPosition, 2.0); // 2.0
-		weights.put(KEYS.blackEaten, 25.0); // 20.0
-		weights.put(KEYS.whiteAlive, 40.0); // 35.0
-		weights.put(KEYS.numEscapeKing, 15.0); // 18.0
-		weights.put(KEYS.blackSurroundKing, -1.0); // 7.0
-		weights.put(KEYS.protectionKing, 18.0); // 18.0
+		weights.put(KEYS.bestPosition, 2.0);
+		weights.put(KEYS.blackEaten, 25.0);
+		weights.put(KEYS.whiteAlive, 40.0);
+		weights.put(KEYS.numEscapeKing, 15.0);
+		weights.put(KEYS.blackSurroundKing, -1.0);
+		weights.put(KEYS.protectionKing, 18.0);
 
 		keys = KEYS.values();
 	}
@@ -49,7 +49,8 @@ public class WhiteHeuristics extends Heuristics {
 		// Atomic functions to combine to get utility value through the weighted sum
 		double bestPositions = (double) getNumberOnBestPositions() / numBestPositions;
 		double numberOfWhiteAlive = (double) (state.getNumberOf(State.Pawn.WHITE)) / GameAshtonTablut.NUM_WHITE;
-		double numberOfBlackEaten = (double) (GameAshtonTablut.NUM_BLACK - state.getNumberOf(State.Pawn.BLACK)) / GameAshtonTablut.NUM_BLACK;
+		double numberOfBlackEaten = (double) (GameAshtonTablut.NUM_BLACK - state.getNumberOf(State.Pawn.BLACK))
+				/ GameAshtonTablut.NUM_BLACK;
 		double blackSurroundKing = (double) (getNumberNeededPositionsToEatKing(state)
 				- countNearPawns(state, kingPos(state), State.Turn.BLACK.toString()))
 				/ getNumberNeededPositionsToEatKing(state);

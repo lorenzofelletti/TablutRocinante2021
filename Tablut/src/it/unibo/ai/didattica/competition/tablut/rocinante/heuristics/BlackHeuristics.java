@@ -6,6 +6,11 @@ import java.util.Map;
 import it.unibo.ai.didattica.competition.tablut.domain.GameAshtonTablut;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 
+/**
+ * 
+ * @author Raffaele Battipaglia, Mario Caniglia, Lorenzo Felletti
+ *
+ */
 public class BlackHeuristics extends Heuristics {
 	// other variables
 	private final byte THRESHOLD = 10;
@@ -18,10 +23,10 @@ public class BlackHeuristics extends Heuristics {
 	public BlackHeuristics(State state) {
 		super(state);
 		weights = new HashMap<>();
-		weights.put(KEYS.rhombusPosition, 2.0); // 2.0
-		weights.put(KEYS.whiteEaten, 50.0); // 48.0
-		weights.put(KEYS.blackAlive, 32.0); // 35.0
-		weights.put(KEYS.blackSurroundKing, 17.0); // 15.0
+		weights.put(KEYS.rhombusPosition, 2.0);
+		weights.put(KEYS.whiteEaten, 50.0);
+		weights.put(KEYS.blackAlive, 32.0);
+		weights.put(KEYS.blackSurroundKing, 17.0);
 
 		keys = KEYS.values();
 	}

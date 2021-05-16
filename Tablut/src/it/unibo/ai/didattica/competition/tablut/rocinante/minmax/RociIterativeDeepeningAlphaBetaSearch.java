@@ -12,13 +12,14 @@ import aima.core.search.framework.Metrics;
 import it.unibo.ai.didattica.competition.tablut.domain.Action;
 
 /**
- * SOOOOO AIMA WHY THE F**K U MAKE THINGS PRIVATEEEEE?? USE PROTECTED SO I CAN
- * EXTEND FOR GOD SAKE! This is a copypaste of aima
+ * SOOOOO, AIMA, WHY DI U MAKE THINGS PRIVATEEEEE?? USE PROTECTED SO I CAN
+ * EXTEND! This is a copypaste of aima + game spaecific code & our "optimizations".
  * IterativeDeepeningAlphaBetaSeach, but with less private sh*t. We don't want
  * to steal any IP, BUT we hate that extending the original class is so so
  * difficult.
  * 
  * (then we also added specific code for our game)
+ * @author Mario Caniglia, Raffaele Battipaglia, Lorenzo Felletti
  */
 public class RociIterativeDeepeningAlphaBetaSearch<S, A, P> implements AdversarialSearch<S, A> {
 
@@ -284,12 +285,6 @@ public class RociIterativeDeepeningAlphaBetaSearch<S, A, P> implements Adversari
 				return value;
 			}
 		}
-		/*
-		 * for (A action : sortActions(state, game.getActions(state), player, depth)) {
-		 * value = Math.min(value, maxValue(game.getResult(state, action), player,
-		 * alpha, beta, depth + 1)); beta = Math.min(beta, value); if (value <= alpha)
-		 * return value; // beta = Math.min(beta, value); }
-		 */
 		if (value <= origAlpha) {
 			transposition.put(state.hashCode(), new TTNode(value, depth, 1));
 		} else if (value >= beta) {
