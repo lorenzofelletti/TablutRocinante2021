@@ -2,6 +2,8 @@ package it.unibo.ai.didattica.competition.tablut.rocinante.clients;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
 
 import it.unibo.ai.didattica.competition.tablut.client.TablutClient;
 import it.unibo.ai.didattica.competition.tablut.domain.Action;
@@ -9,15 +11,17 @@ import it.unibo.ai.didattica.competition.tablut.domain.GameAshtonTablut;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 import it.unibo.ai.didattica.competition.tablut.domain.StateTablut;
 import it.unibo.ai.didattica.competition.tablut.rocinante.minmax.ConcreteRociIterativeDeepeningAlphaBetaSearch;
-import it.unibo.ai.didattica.competition.tablut.rocinante.minmax.RociIterativeDeepeningAlphaBetaSearch;
+import it.unibo.ai.didattica.competition.tablut.rocinante.minmax.TTNode;
 
 public class RociCrewClient extends TablutClient {
 	private int game;
 	private boolean debug;
+	protected Map<Integer, TTNode> transposition = new HashMap<>();
 
 	public RociCrewClient(String player, String name, int timeout, String ipAddress, int game, boolean debug)
 			throws UnknownHostException, IOException {
 		super(player, name, timeout, ipAddress);
+		
 		this.game = game;
 		this.debug = debug;
 	}
@@ -29,7 +33,11 @@ public class RociCrewClient extends TablutClient {
 		String ipAddress = "localhost";
 		int timeout = 60;
 		boolean debug = false;
-
+		
+		for(String arg : args) {
+			System.out.println(arg);
+		}
+		
 		if (args.length < 1) {
 			System.out.println("You must specify which player you are (WHITE or BLACK)");
 			System.out.println("USAGE: ./runmyplayer <black|white> <timeout-in-seconds> <server-ip> <debug>");
@@ -66,10 +74,10 @@ public class RociCrewClient extends TablutClient {
 				System.exit(-1);
 			}
 			ipAddress = args[2];
-			if (args[3].equals("debug")) {
+			if (args[3].equals("debug") || args[3].equals("true")) {
 				debug = true;
 			} else {
-				System.out.println("The last argument can be only 'debug' and it allow to print logs during search");
+				System.out.println("The last argument can be only 'debug' or 'true' and it allow (nope) to print logs during search");
 				System.out.println("USAGE: ./runmyplayer <black|white> <timeout-in-seconds> <server-ip> <debug>");
 				System.exit(-1);
 			}
@@ -108,8 +116,8 @@ public class RociCrewClient extends TablutClient {
 
 		// attributes depends to parameters passed to main
 		System.out.println("Player: " + (this.getPlayer().equals(State.Turn.BLACK) ? "BLACK" : "WHITE"));
-		System.out.println("Timeout: " + this.getTimeout() + " s");
-		System.out.println("Server: " + this.getServerIp());
+		System.out.println("Timeout: " + this.timeout + " s");
+		System.out.println("Server: " + this.serverIp);
 		System.out.println("Debug mode: " + this.debug + "\n");
 
 		// still alive until you are playing
@@ -225,8 +233,10 @@ public class RociCrewClient extends TablutClient {
 	private Action findBestMove(GameAshtonTablut tablutGame, State state) {
 
 		ConcreteRociIterativeDeepeningAlphaBetaSearch search = new ConcreteRociIterativeDeepeningAlphaBetaSearch(
-				tablutGame, Double.MIN_VALUE, Double.MAX_VALUE, this.getTimeout() - 2);
+				tablutGame, Double.MIN_VALUE, Double.MAX_VALUE, this.timeout - 1, transposition);
 		search.setLogEnabled(debug);
+		
 		return search.makeDecision(state);
+		//return action;
 	}
 }

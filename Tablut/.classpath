@@ -8,6 +8,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/gson-2.2.2.jar"/>
 	<classpathentry kind="lib" path="lib/commons-cli-1.4.jar"/>
-	<classpathentry kind="lib" path="lib/aima-core.jar"/>
+	<classpathentry kind="lib" path="C:/Users/loren/git/TablutCompetitionEE/Tablut/lib/aima-core.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

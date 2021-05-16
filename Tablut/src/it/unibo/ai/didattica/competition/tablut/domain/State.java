@@ -33,10 +33,6 @@ public abstract class State {
 		public String toString() {
 			return turn;
 		}
-		
-		public char toChar() {
-			return turn.charAt(0);
-		}
 	}
 
 	/**
@@ -44,30 +40,21 @@ public abstract class State {
 	 * Pawn represents the content of a box in the board
 	 * 
 	 * @author A.Piretti
-	 * 
-	 * --- changed Pawn type from String to char
+	 *
 	 */
 	public enum Pawn {
-		EMPTY('O'), WHITE('W'), BLACK('B'), THRONE('T'), KING('K');
-		private final char pawn;
+		EMPTY("O"), WHITE("W"), BLACK("B"), THRONE("T"), KING("K");
+		private final String pawn;
 
-		private Pawn(char s) {
+		private Pawn(String s) {
 			pawn = s;
 		}
 
-		public boolean equalsPawn(char otherPawn) {
-			return pawn == otherPawn;
-		}
-
-		public boolean equalsPawn(Pawn otherPawn) {
-			return pawn == otherPawn.pawn;
+		public boolean equalsPawn(String otherPawn) {
+			return (otherPawn == null) ? false : pawn.equals(otherPawn);
 		}
 
 		public String toString() {
-			return "" + pawn;
-		}
-		
-		public char getChar() {
 			return pawn;
 		}
 

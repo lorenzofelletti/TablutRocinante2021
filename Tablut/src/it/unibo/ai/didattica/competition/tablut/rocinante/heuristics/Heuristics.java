@@ -32,7 +32,7 @@ public class Heuristics {
 		State.Pawn[][] board = state.getBoard();
 		for (int i = 0; i < board.length; ++i) {
 			for (int j = 0; j < board.length; ++j) {
-				if (state.getPawn(i, j).equalsPawn('K')) {
+				if (state.getPawn(i, j).equalsPawn("K")) {
 					k[0] = i;
 					k[1] = j;
 					break;
@@ -47,7 +47,7 @@ public class Heuristics {
 	 * @return true if K is on the throne, false otherwise.
 	 */
 	public boolean checkKingInStartPosition(State state) {
-		return state.getPawn(4, 4).equalsPawn('K');
+		return state.getPawn(4, 4).equalsPawn("K");
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class Heuristics {
 	 * @param target the target Pawns (black or white)
 	 * @return the number of near target pawns
 	 */
-	public int countNearPawns(State state, int[] pos, char target) {
+	public int countNearPawns(State state, int[] pos, String target) {
 		int count = 0;
 		State.Pawn[][] board = state.getBoard();
 		count += (board[pos[0] - 1][pos[1]].equalsPawn(target)) ? 1 : 0;
@@ -72,7 +72,7 @@ public class Heuristics {
 	 * @param target
 	 * @return true if there are target pawns nearby pos.
 	 */
-	public boolean checkNearPawns(State state, int[] pos, char target) {
+	public boolean checkNearPawns(State state, int[] pos, String target) {
 		return countNearPawns(state, pos, target) > 0;
 	}
 
@@ -82,7 +82,7 @@ public class Heuristics {
 	 * @param target
 	 * @return ArrayList<int[]> of the positions occupied near pos.
 	 */
-	protected ArrayList<int[]> positionNearPawns(State state, int[] pos, char target) {
+	protected ArrayList<int[]> positionNearPawns(State state, int[] pos, String target) {
 		ArrayList<int[]> occupiedPosition = new ArrayList<int[]>();
 		int[] p = new int[2];
 		State.Pawn[][] board = state.getBoard();
@@ -116,7 +116,7 @@ public class Heuristics {
 	 * @return true if king is near pos, false otherwise
 	 */
 	protected boolean checkNearKing(State state, int[] pos) {
-		return checkNearPawns(state, pos, 'K');
+		return checkNearPawns(state, pos, "K");
 	}
 
 	/**
@@ -127,7 +127,7 @@ public class Heuristics {
 		int[][] blockedEscapes = { { 1, 1 }, { 1, 2 }, { 1, 6 }, { 1, 7 }, { 2, 1 }, { 2, 7 }, { 6, 1 }, { 6, 7 },
 				{ 7, 1 }, { 7, 2 }, { 7, 6 }, { 7, 7 } };
 		for (int[] pos : blockedEscapes) {
-			if (state.getPawn(pos[0], pos[1]).equalsPawn(State.Pawn.BLACK))
+			if (state.getPawn(pos[0], pos[1]).equalsPawn(State.Pawn.BLACK.toString()))
 				++count;
 		}
 

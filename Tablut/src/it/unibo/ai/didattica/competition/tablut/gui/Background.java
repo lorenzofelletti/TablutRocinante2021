@@ -41,19 +41,19 @@ public abstract class Background extends JFrame {
 	    {
 	    	for(int j=0;j<this.aState.getBoard().length;j++)
 	    	{
-	    		if(this.aState.getPawn(i, j).equalsPawn('B'))
+	    		if(this.aState.getPawn(i, j).equalsPawn("B"))
 	    		{
 	    			int posX= 34 + (i*37);
 	    			int posY= 12 + (j*37);
 	    			g.drawImage(black, posY, posX,null);
 	    		}	
-	    		if(this.aState.getPawn(i, j).equalsPawn('W'))
+	    		if(this.aState.getPawn(i, j).equalsPawn("W"))
 	    		{
 	    			int posX= 35 + (i*37);
 	    			int posY= 12 + (j*37);
 	    			g.drawImage(white, posY, posX,null);
 	    		}	
-	    		if(this.aState.getPawn(i, j).equalsPawn('K'))
+	    		if(this.aState.getPawn(i, j).equalsPawn("K"))
 	    		{
 	    			int posX= 34 + (i*37);
 	    			int posY= 12 + (j*37);

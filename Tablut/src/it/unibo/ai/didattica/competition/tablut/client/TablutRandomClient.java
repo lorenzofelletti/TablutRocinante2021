@@ -1,16 +1,16 @@
 package it.unibo.ai.didattica.competition.tablut.client;
 
-//import java.io.DataInputStream;
-//import java.io.DataOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-//import java.net.Socket;
+import java.net.Socket;
 import java.net.UnknownHostException;
-//import java.security.InvalidParameterException;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-//import com.google.gson.Gson;
+import com.google.gson.Gson;
 
 import it.unibo.ai.didattica.competition.tablut.domain.*;
 import it.unibo.ai.didattica.competition.tablut.domain.State.Turn;
@@ -132,13 +132,13 @@ public class TablutRandomClient extends TablutClient {
 					int[] buf;
 					for (int i = 0; i < state.getBoard().length; i++) {
 						for (int j = 0; j < state.getBoard().length; j++) {
-							if (state.getPawn(i, j).equalsPawn(State.Pawn.WHITE)
-									|| state.getPawn(i, j).equalsPawn(State.Pawn.KING)) {
+							if (state.getPawn(i, j).equalsPawn(State.Pawn.WHITE.toString())
+									|| state.getPawn(i, j).equalsPawn(State.Pawn.KING.toString())) {
 								buf = new int[2];
 								buf[0] = i;
 								buf[1] = j;
 								pawns.add(buf);
-							} else if (state.getPawn(i, j).equalsPawn(State.Pawn.EMPTY)) {
+							} else if (state.getPawn(i, j).equalsPawn(State.Pawn.EMPTY.toString())) {
 								buf = new int[2];
 								buf[0] = i;
 								buf[1] = j;
@@ -223,12 +223,12 @@ public class TablutRandomClient extends TablutClient {
 					int[] buf;
 					for (int i = 0; i < state.getBoard().length; i++) {
 						for (int j = 0; j < state.getBoard().length; j++) {
-							if (state.getPawn(i, j).equalsPawn(State.Pawn.BLACK)) {
+							if (state.getPawn(i, j).equalsPawn(State.Pawn.BLACK.toString())) {
 								buf = new int[2];
 								buf[0] = i;
 								buf[1] = j;
 								pawns.add(buf);
-							} else if (state.getPawn(i, j).equalsPawn(State.Pawn.EMPTY)) {
+							} else if (state.getPawn(i, j).equalsPawn(State.Pawn.EMPTY.toString())) {
 								buf = new int[2];
 								buf[0] = i;
 								buf[1] = j;
