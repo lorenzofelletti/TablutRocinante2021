@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import aima.core.search.adversarial.Game;
-import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch;
 import it.unibo.ai.didattica.competition.tablut.domain.Action;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 import it.unibo.ai.didattica.competition.tablut.domain.State.Turn;
@@ -15,7 +14,7 @@ import it.unibo.ai.didattica.competition.tablut.domain.State.Turn;
  * Concrete implementation of {@link RociIterativeDeepeningAlphaBetaSearch}
  * 
  * @see it.unibo.ai.didattica.competition.tablut.rocinante.minmax.RociIterativeDeepeningAlphaBetaSearch
- * @author Lorenzo Felletti
+ * @author Lorenzo Felletti, Mario Caniglia, Raffaele Battipaglia
  */
 public class ConcreteRociIterativeDeepeningAlphaBetaSearch
 		extends RociIterativeDeepeningAlphaBetaSearch<State, Action, State.Turn> {

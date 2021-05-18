@@ -4,19 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import it.unibo.ai.didattica.competition.tablut.domain.GameAshtonTablut;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 
-/**
- * 
- * @author Raffaele Battipaglia, Mario Caniglia, Lorenzo Felletti
- *
- */
 public class WhiteHeuristics extends Heuristics {
+	// number of b/w pawns
+	private final int NUM_WHITE = 8;
+	private final int NUM_BLACK = 16;
 	private boolean flag = false;
 
 	// below this threshold best config is less powerful
-	private final static int THRESHOLD_BEST = 6;
+	private final static int THRESHOLD_BEST = 2;
 
 	private final static int[][] bestPositions = { { 2, 3 }, { 3, 5 }, { 5, 3 }, { 6, 5 } };
 
@@ -28,12 +25,12 @@ public class WhiteHeuristics extends Heuristics {
 	public WhiteHeuristics(State state) {
 		super(state);
 		weights = new HashMap<KEYS, Double>();
-		weights.put(KEYS.bestPosition, 2.0);
-		weights.put(KEYS.blackEaten, 25.0);
-		weights.put(KEYS.whiteAlive, 40.0);
-		weights.put(KEYS.numEscapeKing, 15.0);
-		weights.put(KEYS.blackSurroundKing, -1.0);
-		weights.put(KEYS.protectionKing, 18.0);
+		weights.put(KEYS.bestPosition, 2.0); // 2.0
+		weights.put(KEYS.blackEaten, 20.0); // 20.0
+		weights.put(KEYS.whiteAlive, 35.0); // 35.0
+		weights.put(KEYS.numEscapeKing, 18.0); // 18.0
+		weights.put(KEYS.blackSurroundKing, 7.0); // 7.0
+		weights.put(KEYS.protectionKing, 18.0); // 18.0
 
 		keys = KEYS.values();
 	}
@@ -48,9 +45,8 @@ public class WhiteHeuristics extends Heuristics {
 		double utilityValue = 0;
 		// Atomic functions to combine to get utility value through the weighted sum
 		double bestPositions = (double) getNumberOnBestPositions() / numBestPositions;
-		double numberOfWhiteAlive = (double) (state.getNumberOf(State.Pawn.WHITE)) / GameAshtonTablut.NUM_WHITE;
-		double numberOfBlackEaten = (double) (GameAshtonTablut.NUM_BLACK - state.getNumberOf(State.Pawn.BLACK))
-				/ GameAshtonTablut.NUM_BLACK;
+		double numberOfWhiteAlive = (double) (state.getNumberOf(State.Pawn.WHITE)) / this.NUM_WHITE;
+		double numberOfBlackEaten = (double) (this.NUM_BLACK - state.getNumberOf(State.Pawn.BLACK)) / this.NUM_BLACK;
 		double blackSurroundKing = (double) (getNumberNeededPositionsToEatKing(state)
 				- countNearPawns(state, kingPos(state), State.Turn.BLACK.toString()))
 				/ getNumberNeededPositionsToEatKing(state);
@@ -89,7 +85,7 @@ public class WhiteHeuristics extends Heuristics {
 
 		int num = 0;
 
-		if (state.getNumberOf(State.Pawn.WHITE) >= THRESHOLD_BEST) {
+		if (state.getNumberOf(State.Pawn.WHITE) >= this.NUM_WHITE - THRESHOLD_BEST) {
 			for (int[] pos : bestPositions) {
 				if (state.getPawn(pos[0], pos[1]).equalsPawn(State.Pawn.WHITE.toString())) {
 					num++;

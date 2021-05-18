@@ -12,7 +12,7 @@ import aima.core.search.framework.Metrics;
 import it.unibo.ai.didattica.competition.tablut.domain.Action;
 
 /**
- * SOOOOO, AIMA, WHY DI U MAKE THINGS PRIVATEEEEE?? USE PROTECTED SO I CAN
+ * SOOOOO, AIMA, WHY DID U MAKE THINGS PRIVATEEEEE?? USE PROTECTED SO I CAN
  * EXTEND! This is a copypaste of aima + game spaecific code & our "optimizations".
  * IterativeDeepeningAlphaBetaSeach, but with less private sh*t. We don't want
  * to steal any IP, BUT we hate that extending the original class is so so
@@ -223,7 +223,6 @@ public class RociIterativeDeepeningAlphaBetaSearch<S, A, P> implements Adversari
 		double value = Double.NEGATIVE_INFINITY;
 		for (A action : sortActions(state, game.getActions(state), player, depth)) {
 			value = Math.max(value, minValue(game.getResult(state, action), player, alpha, beta, depth + 1));
-			alpha = Math.max(alpha, value);
 			if (value >= beta) {
 				if (!transposition.containsKey(state.hashCode()))
 					transposition.put(state.hashCode(), new TTNode(value, depth, 0));
@@ -234,7 +233,7 @@ public class RociIterativeDeepeningAlphaBetaSearch<S, A, P> implements Adversari
 
 				return value;
 			}
-			// alpha = Math.max(alpha, value);
+			alpha = Math.max(alpha, value);
 
 		}
 		if (value <= origAlpha) {
@@ -278,12 +277,12 @@ public class RociIterativeDeepeningAlphaBetaSearch<S, A, P> implements Adversari
 		List<A> actions = sortActions(state, game.getActions(state), player, depth);
 		for (int i = 0; i < actions.size(); i++) {
 			value = Math.min(value, maxValue(game.getResult(state, actions.get(i)), player, alpha, beta, depth + 1));
-			beta = Math.min(beta, value);
 			if (value <= alpha) {
 				if (!transposition.containsKey(state.hashCode()))
 					transposition.put(state.hashCode(), new TTNode(value, depth, 0));
 				return value;
 			}
+			beta = Math.min(beta, value);
 		}
 		if (value <= origAlpha) {
 			transposition.put(state.hashCode(), new TTNode(value, depth, 1));
