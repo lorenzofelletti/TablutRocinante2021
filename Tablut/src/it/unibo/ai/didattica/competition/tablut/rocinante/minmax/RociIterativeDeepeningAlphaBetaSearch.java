@@ -225,7 +225,7 @@ public class RociIterativeDeepeningAlphaBetaSearch<S, A, P> implements Adversari
 			value = Math.max(value, minValue(game.getResult(state, action), player, alpha, beta, depth + 1));
 			if (value >= beta) {
 				if (!transposition.containsKey(state.hashCode()))
-					transposition.put(state.hashCode(), new TTNode(value, depth, 0));
+					transposition.put(state.hashCode(), new TTNode(value, depth, -1));
 
 				if (!this.captureAction(state, player, action)) {
 					this.addKillerMove(depth, action, player, value, state);
@@ -279,7 +279,7 @@ public class RociIterativeDeepeningAlphaBetaSearch<S, A, P> implements Adversari
 			value = Math.min(value, maxValue(game.getResult(state, actions.get(i)), player, alpha, beta, depth + 1));
 			if (value <= alpha) {
 				if (!transposition.containsKey(state.hashCode()))
-					transposition.put(state.hashCode(), new TTNode(value, depth, 0));
+					transposition.put(state.hashCode(), new TTNode(value, depth, 1));
 				return value;
 			}
 			beta = Math.min(beta, value);
